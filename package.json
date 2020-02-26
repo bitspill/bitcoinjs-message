@@ -1,14 +1,14 @@
 {
-  "name": "bitcoinjs-message",
-  "version": "2.1.0",
+  "name": "@oipwg/bitcoinjs-message",
+  "version": "2.2.0-beta.0",
   "description": "bitcoinjs-message",
   "keywords": [
     "bitcoinjs-message",
     "bitcoin"
   ],
-  "homepage": "https://github.com/bitcoinjs/bitcoinjs-message",
+  "homepage": "https://github.com/oipwg/bitcoinjs-message",
   "bugs": {
-    "url": "https://github.com/bitcoinjs/bitcoinjs-message/issues"
+    "url": "https://github.com/oipwg/bitcoinjs-message/issues"
   },
   "license": "MIT",
   "files": [
@@ -17,7 +17,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitcoinjs/bitcoinjs-message.git"
+    "url": "https://github.com/oipwg/bitcoinjs-message.git"
   },
   "scripts": {
     "coverage": "nyc tape test/*.js",
