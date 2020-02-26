@@ -22,7 +22,7 @@ fixtures.valid.magicHash.forEach(f => {
 
 fixtures.valid.sign.forEach(f => {
   test('sign: ' + f.description, t => {
-    const pk = new bitcoin.ECPair(new BigInteger(f.d)).d.toBuffer(32)
+    const pk = new BigInteger(f.d).toBuffer(32)
     let signature = message.sign(
       f.message,
       pk,
@@ -146,12 +146,11 @@ fixtures.invalid.verify.forEach(f => {
 fixtures.randomSig.forEach(f => {
   test(f.description, t => {
     const keyPair = bitcoin.ECPair.fromWIF(f.wif)
-    const privateKey = keyPair.d.toBuffer(32)
-    const address = keyPair.getAddress()
+    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey })
     f.signatures.forEach(s => {
       const signature = message.sign(
         f.message,
-        privateKey,
+        keyPair.privateKey,
         keyPair.compressed,
         { extraEntropy: Buffer.from(s.sigData, 'base64') }
       )
