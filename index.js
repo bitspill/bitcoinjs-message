@@ -1,6 +1,5 @@
 const bs58check = require('bs58check')
 const bech32 = require('bech32')
-const bufferEquals = require('buffer-equals')
 const createHash = require('create-hash')
 const secp256k1 = require('secp256k1')
 const varuint = require('varuint-bitcoin')
@@ -102,10 +101,10 @@ function sign (
     )
   }
   const hash = magicHash(message, messagePrefix)
-  const sigObj = secp256k1.sign(hash, privateKey, { data: extraEntropy })
+  const sigObj = secp256k1.ecdsaSign(hash, privateKey, { data: extraEntropy })
   return encodeSignature(
     sigObj.signature,
-    sigObj.recovery,
+    sigObj.recid,
     compressed,
     segwitType
   )
@@ -116,10 +115,10 @@ function verify (message, address, signature, messagePrefix) {
 
   const parsed = decodeSignature(signature)
   const hash = magicHash(message, messagePrefix)
-  const publicKey = secp256k1.recover(
-    hash,
+  const publicKey = secp256k1.ecdsaRecover(
     parsed.signature,
     parsed.recovery,
+    hash,
     parsed.compressed
   )
   const publicKeyHash = hash160(publicKey)
@@ -145,7 +144,7 @@ function verify (message, address, signature, messagePrefix) {
     expected = bs58check.decode(address).slice(1)
   }
 
-  return bufferEquals(actual, expected)
+  return expected.equals(actual)
 }
 
 module.exports = {
